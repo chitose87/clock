@@ -1,0 +1,24 @@
+extends ../_common
+block meta
+    -
+        var $meta={
+        path:"../",
+        dir:"./zero/",
+        title:"",
+        description:"",
+        keyword:""
+        }
+
+block head_entry
+    script.
+        var require = {
+            paths: {
+                'jquery': '../../res/jquery.min'
+            }
+        };
+    script(data-main="res/Zero.js" src='../res/require.js')
+
+
+block body_entry
+
+block body_end

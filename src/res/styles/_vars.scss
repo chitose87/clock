@@ -1,0 +1,32 @@
+/**
+size
+ */
+$content_md: 1440px;
+$content_tb: 768px;
+$content_sp: 750px;
+
+/**
+color
+ */
+$color_white: #fff;
+$color_black: #000;
+$color_text_black: #535353;
+$color_text_white: #fff;
+$color_red: #ce1206;
+$color_blue: #0f58a8;
+$color_gray1: #313131;
+$color_gray2: #878787;
+
+/**
+z-index
+ */
+$z-index_under: 0; //裏側
+$z-index_put: 5; //position順を守る場合
+$z-index_on: 100; //上に表示したい場合
+$z-index_over: 300; //コンテンツ最上
+$z-index_modal: 500; //コンテンツを多い被す
+
+/**
+
+ */
+$time: 0.4s;

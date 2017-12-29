@@ -1,0 +1,80 @@
+/**
+size
+ */
+/**
+color
+ */
+/**
+z-index
+ */
+/**
+
+ */
+html, :root {
+  color: #535353;
+  background-color: #000;
+  box-sizing: border-box;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  font-family: "Noto Sans", sans-serif; }
+  @media screen and (min-width: 751px) {
+    html, :root {
+      font-size: 16px;
+      line-height: 1.875; } }
+  @media screen and (max-width: 750px) {
+    html, :root {
+      font-size: 16px;
+      line-height: 1.875; } }
+
+* {
+  margin: 0;
+  padding: 0; }
+
+*,
+::before,
+::after {
+  box-sizing: inherit; }
+
+img {
+  width: 100%;
+  height: auto; }
+
+button {
+  background: none;
+  border: 0; }
+
+a {
+  text-decoration: none;
+  color: inherit;
+  word-wrap: break-word; }
+
+h3 {
+  font-weight: bolder;
+  margin-bottom: 1em;
+  color: #0f58a8; }
+
+h4 {
+  font-weight: bolder; }
+
+a {
+  font-weight: bolder;
+  color: #0f58a8; }
+
+em {
+  font-weight: bolder; }
+
+@media screen and (min-width: 751px) {
+  h3 {
+    font-size: 24px;
+    line-height: 40px; }
+  h4 {
+    font-size: 16px; } }
+
+@media screen and (max-width: 750px) {
+  h3 {
+    font-size: 20px;
+    line-height: 30px; }
+  h4 {
+    font-size: 16px; } }
+
+/*# sourceMappingURL=common.css.map */

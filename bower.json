@@ -1,0 +1,17 @@
+{
+  "name": "clock",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "pon87 <chitose87@gmail.com>"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/chitose87/clock",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
