@@ -15,28 +15,27 @@ define(["require", "exports", "../event/AsEvent"], function (require, exports, A
         __extends(PonModule, _super);
         function PonModule(htmlPath, cssPath) {
             var _this = _super.call(this) || this;
+            // this._dir = htmlPath.match("^.*/")[0];
             $.ajax({ url: htmlPath, datatype: "html" })
                 .then(function (data) {
                 var v = $($.parseHTML(data));
                 _this.$obj.replaceWith(v);
                 _this.$obj = v;
-                // this.$obj.find("*").each((i, ele) => {
-                // let str, s = 0, e;
-                // while (true) {
-                //     str = $(ele).html();
-                //     s = str.indexOf("%{", s);
-                //     if (s == -1) break;
-                //     e = str.indexOf("}", s += 2);
-                //     let param = str.substring(s, e);
-                //     Object.defineProperty(this, param, {
-                //         set: (v) => {
-                //             console.log(this[param], v);
-                //         }
-                //     });
-                //
-                //     s += e;
-                // }
-                // })
+                // include modules
+                _this.$obj.find("module").each(function (i, ele) {
+                    var $tar = $(ele);
+                    requirejs([$tar.html()], function (data) {
+                        for (var i_1 in data) {
+                            try {
+                                var ponModule = new data[i_1]();
+                                $tar.replaceWith(ponModule.$obj);
+                                break;
+                            }
+                            catch (e) {
+                            }
+                        }
+                    });
+                });
                 _this.createdView();
             }, function () {
             });

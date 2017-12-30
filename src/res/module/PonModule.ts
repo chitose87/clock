@@ -5,29 +5,28 @@ export class PonModule extends AsEventDispatcher {
 
     constructor(htmlPath: string, cssPath: string) {
         super();
+        // this._dir = htmlPath.match("^.*/")[0];
 
         $.ajax(<JQuery.AjaxSettings>{url: htmlPath, datatype: "html"})
             .then((data) => {
                 let v = $($.parseHTML(data));
                 this.$obj.replaceWith(v);
                 this.$obj = v;
-                // this.$obj.find("*").each((i, ele) => {
-                // let str, s = 0, e;
-                // while (true) {
-                //     str = $(ele).html();
-                //     s = str.indexOf("%{", s);
-                //     if (s == -1) break;
-                //     e = str.indexOf("}", s += 2);
-                //     let param = str.substring(s, e);
-                //     Object.defineProperty(this, param, {
-                //         set: (v) => {
-                //             console.log(this[param], v);
-                //         }
-                //     });
-                //
-                //     s += e;
-                // }
-                // })
+
+                // include modules
+                this.$obj.find("module").each((i, ele) => {
+                    let $tar = $(ele);
+                    requirejs([$tar.html()], (data: any) => {
+                        for (let i in data) {
+                            try {
+                                let ponModule: PonModule = new data[i]();
+                                $tar.replaceWith(ponModule.$obj);
+                                break;
+                            } catch (e) {
+                            }
+                        }
+                    })
+                });
                 this.createdView();
             }, () => {
 
