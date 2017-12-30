@@ -1,0 +1,24 @@
+.digital {
+  display: block;
+  &__milliseconds {
+    display: block;
+  }
+  &__seconds {
+    display: block;
+  }
+  &__minutes {
+    display: block;
+  }
+  &__hours {
+    display: block;
+  }
+  &__date {
+    display: block;
+  }
+  &__month {
+    display: block;
+  }
+  &__fullYear {
+    display: block;
+  }
+}
