@@ -1,0 +1,10 @@
+@import "../../res/styles/util";
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+body {
+	font-family: 'Roboto', sans-serif;
+	font-size: calc(100vw / 8);
+
+	background-color: $color_black;
+	color: $color_white;
+}

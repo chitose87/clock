@@ -4,138 +4,152 @@
 import {AsEvent, AsEventDispatcher} from "../../res/event/AsEvent";
 
 export class ClockEvent extends AsEvent {
-    current: Clock;
-    value: number = NaN;
+	static MILL: string = "mill";
+	static SEC: string = "sec";
+	static MIN: string = "min";
+	static HOUR: string = "hour";
+	static DATE: string = "date";
+	static MON: string = "mon";
+	static YEAR: string = "year";
+
+	current: Clock;
+	value: ClockValue = new ClockValue();
+}
+
+export class ClockValue {
+	_number: number = NaN;
+
+	constructor() {
+	}
+
+	getString(zeroPadding: number = 0): string {
+		let result: string = String(this._number);
+		while (result.length < zeroPadding) {
+			result = "0" + result;
+		}
+		return result;
+	}
 }
 
 export class Clock extends AsEventDispatcher {
+	private millEvent: ClockEvent = new ClockEvent(ClockEvent.MILL);
+	private secEvent: ClockEvent = new ClockEvent(ClockEvent.SEC);
+	private minEvent: ClockEvent = new ClockEvent(ClockEvent.MIN);
+	private hourEvent: ClockEvent = new ClockEvent(ClockEvent.HOUR);
+	private dateEvent: ClockEvent = new ClockEvent(ClockEvent.DATE);
+	private monEvent: ClockEvent = new ClockEvent(ClockEvent.MON);
+	private yearEvent: ClockEvent = new ClockEvent(ClockEvent.YEAR);
 
-    static MILL: string = "mill";
-    static SEC: string = "sec";
-    static MIN: string = "min";
-    static HOUR: string = "hour";
-    static DATE: string = "date";
-    static MON: string = "mon";
-    static YEAR: string = "year";
+	get milliseconds(): ClockValue {
+		return this.millEvent.value;
+	}
 
-    private millEvent: ClockEvent = new ClockEvent(Clock.MILL);
-    private secEvent: ClockEvent = new ClockEvent(Clock.SEC);
-    private minEvent: ClockEvent = new ClockEvent(Clock.MIN);
-    private hourEvent: ClockEvent = new ClockEvent(Clock.HOUR);
-    private dateEvent: ClockEvent = new ClockEvent(Clock.DATE);
-    private monEvent: ClockEvent = new ClockEvent(Clock.MON);
-    private yearEvent: ClockEvent = new ClockEvent(Clock.YEAR);
+	get seconds(): ClockValue {
+		return this.secEvent.value;
+	}
 
-    get milliseconds(): number {
-        return this.millEvent.value;
-    }
+	get minutes(): ClockValue {
+		return this.minEvent.value;
+	}
 
-    get seconds(): number {
-        return this.secEvent.value;
-    }
+	get hours(): ClockValue {
+		return this.hourEvent.value;
+	}
 
-    get minutes(): number {
-        return this.minEvent.value;
-    }
+	get date(): ClockValue {
+		return this.dateEvent.value;
+	}
 
-    get hours(): number {
-        return this.hourEvent.value;
-    }
+	get month(): ClockValue {
+		return this.monEvent.value;
+	}
 
-    get date(): number {
-        return this.dateEvent.value;
-    }
+	get fullYear(): ClockValue {
+		return this.yearEvent.value;
+	}
 
-    get month(): number {
-        return this.monEvent.value;
-    }
+	/**
+	 *
+	 */
+	constructor() {
+		super();
+		this.run();
+	}
 
-    get fullYear(): number {
-        return this.yearEvent.value;
-    }
+	private run() {
+		requestAnimationFrame(() => this.run());
 
-    /**
-     *
-     */
-    constructor() {
-        super();
-        this.run();
-    }
+		let after: Date = new Date();
+		let v;
 
-    private run() {
-        requestAnimationFrame(() => this.run());
+		this.millEvent.value._number = after.getMilliseconds();
+		this.dispatchEvent(this.millEvent);
 
-        let after: Date = new Date();
-        let v;
+		v = after.getSeconds();
+		if (this.secEvent.value._number != v) {
+			this.secEvent.value._number = v;
+			this.dispatchEvent(this.secEvent);
 
-        this.millEvent.value = after.getMilliseconds();
-        this.dispatchEvent(this.millEvent);
+			v = after.getMinutes();
+			if (this.minEvent.value._number != v) {
+				this.minEvent.value._number = v;
+				this.dispatchEvent(this.minEvent);
 
-        v = after.getSeconds();
-        if (this.secEvent.value != v) {
-            this.secEvent.value = v;
-            this.dispatchEvent(this.secEvent);
+				v = after.getHours();
+				if (this.hourEvent.value._number != v) {
+					this.hourEvent.value._number = v;
+					this.dispatchEvent(this.hourEvent);
 
-            v = after.getMinutes();
-            if (this.minEvent.value != v) {
-                this.minEvent.value = v;
-                this.dispatchEvent(this.minEvent);
+					v = after.getDate();
+					if (this.dateEvent.value._number != v) {
+						this.dateEvent.value._number = v;
+						this.dispatchEvent(this.dateEvent);
 
-                v = after.getHours();
-                if (this.hourEvent.value != v) {
-                    this.hourEvent.value = v;
-                    this.dispatchEvent(this.hourEvent);
+						v = after.getMonth() + 1;
+						if (this.monEvent.value._number != v) {
+							this.monEvent.value._number = v;
+							this.dispatchEvent(this.monEvent);
 
-                    v = after.getDate();
-                    if (this.dateEvent.value != v) {
-                        this.dateEvent.value = v;
-                        this.dispatchEvent(this.dateEvent);
+							v = after.getFullYear();
+							if (this.yearEvent.value._number != v) {
+								this.yearEvent.value._number = v;
+								this.dispatchEvent(this.yearEvent);
 
-                        v = after.getMonth() + 1;
-                        if (this.monEvent.value != v) {
-                            this.monEvent.value = v;
-                            this.dispatchEvent(this.monEvent);
+							}
+						}
+					}
+				}
+			}
+		}
+	}
 
-                            v = after.getFullYear();
-                            if (this.yearEvent.value != v) {
-                                this.yearEvent.value = v;
-                                this.dispatchEvent(this.yearEvent);
+	allListenerSet(initialRun: boolean,
+				   milliseconds: (e: ClockEvent) => void,
+				   seconds: (e: ClockEvent) => void,
+				   minutes: (e: ClockEvent) => void,
+				   hours: (e: ClockEvent) => void,
+				   date: (e: ClockEvent) => void,
+				   month: (e: ClockEvent) => void,
+				   fullYear: (e: ClockEvent) => void): Clock {
 
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
+		this.listener(ClockEvent.MILL, milliseconds);
+		this.listener(ClockEvent.SEC, seconds);
+		this.listener(ClockEvent.MIN, minutes);
+		this.listener(ClockEvent.HOUR, hours);
+		this.listener(ClockEvent.DATE, date);
+		this.listener(ClockEvent.MON, month);
+		this.listener(ClockEvent.YEAR, fullYear);
 
-    allListenerSet(initialRun: boolean,
-                   milliseconds: (e: ClockEvent) => void,
-                   seconds: (e: ClockEvent) => void,
-                   minutes: (e: ClockEvent) => void,
-                   hours: (e: ClockEvent) => void,
-                   date: (e: ClockEvent) => void,
-                   month: (e: ClockEvent) => void,
-                   fullYear: (e: ClockEvent) => void): Clock {
+		if (initialRun) {
+			milliseconds(this.millEvent);
+			seconds(this.secEvent);
+			minutes(this.minEvent);
+			hours(this.hourEvent);
+			date(this.dateEvent);
+			month(this.monEvent);
+			fullYear(this.yearEvent);
+		}
 
-        this.listener(Clock.MILL, milliseconds);
-        this.listener(Clock.SEC, seconds);
-        this.listener(Clock.MIN, minutes);
-        this.listener(Clock.HOUR, hours);
-        this.listener(Clock.DATE, date);
-        this.listener(Clock.MON, month);
-        this.listener(Clock.YEAR, fullYear);
-
-        if (initialRun) {
-            milliseconds(this.millEvent);
-            seconds(this.secEvent);
-            minutes(this.minEvent);
-            hours(this.hourEvent);
-            date(this.dateEvent);
-            month(this.monEvent);
-            fullYear(this.yearEvent);
-        }
-
-        return this;
-    }
+		return this;
+	}
 }

@@ -10,9 +10,9 @@ class Zero {
         console.log("Zero v0");
 
         this.clock = new Clock()
-            .listener(Clock.SEC, (e: ClockEvent) => {
+            .listener(ClockEvent.SEC, (e: ClockEvent) => {
             })
-            .onceListener(Clock.SEC, (e: ClockEvent) => {
+            .onceListener(ClockEvent.SEC, (e: ClockEvent) => {
             })
         ;
 

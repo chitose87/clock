@@ -11,6 +11,16 @@ var __extends = (this && this.__extends) || (function () {
 define(["require", "exports", "../event/AsEvent"], function (require, exports, AsEvent_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    var PonModuleEvent = /** @class */ (function (_super) {
+        __extends(PonModuleEvent, _super);
+        function PonModuleEvent() {
+            return _super !== null && _super.apply(this, arguments) || this;
+        }
+        PonModuleEvent.CREATED_VIEW = "createdView";
+        PonModuleEvent.CREATED_STYLE = "createdStyle";
+        return PonModuleEvent;
+    }(AsEvent_1.AsEvent));
+    exports.PonModuleEvent = PonModuleEvent;
     var PonModule = /** @class */ (function (_super) {
         __extends(PonModule, _super);
         function PonModule(htmlPath, cssPath) {
@@ -68,8 +78,10 @@ define(["require", "exports", "../event/AsEvent"], function (require, exports, A
             return _this;
         }
         PonModule.prototype.createdView = function () {
+            return this.dispatchEvent(new PonModuleEvent(PonModuleEvent.CREATED_VIEW));
         };
         PonModule.prototype.createdStyle = function () {
+            return this.dispatchEvent(new PonModuleEvent(PonModuleEvent.CREATED_STYLE));
         };
         return PonModule;
     }(AsEvent_1.AsEventDispatcher));

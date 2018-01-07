@@ -17,14 +17,16 @@ html, :root {
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
   font-family: "Noto Sans", sans-serif; }
-  @media screen and (min-width: 751px) {
-    html, :root {
-      font-size: 16px;
-      line-height: 1.875; } }
-  @media screen and (max-width: 750px) {
-    html, :root {
-      font-size: 16px;
-      line-height: 1.875; } }
+
+@media screen and (min-width: 751px) {
+  html, :root {
+    font-size: 16px;
+    line-height: 1.875; } }
+
+@media screen and (max-width: 750px) {
+  html, :root {
+    font-size: 16px;
+    line-height: 1.875; } }
 
 * {
   margin: 0;
@@ -76,5 +78,8 @@ em {
     line-height: 30px; }
   h4 {
     font-size: 16px; } }
+
+/*# sourceMappingURL=common.css.map */
+/*# sourceMappingURL=common.css.map */
 
 /*# sourceMappingURL=common.css.map */

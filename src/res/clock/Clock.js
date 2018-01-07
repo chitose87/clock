@@ -15,12 +15,34 @@ define(["require", "exports", "../../res/event/AsEvent"], function (require, exp
         __extends(ClockEvent, _super);
         function ClockEvent() {
             var _this = _super !== null && _super.apply(this, arguments) || this;
-            _this.value = NaN;
+            _this.value = new ClockValue();
             return _this;
         }
+        ClockEvent.MILL = "mill";
+        ClockEvent.SEC = "sec";
+        ClockEvent.MIN = "min";
+        ClockEvent.HOUR = "hour";
+        ClockEvent.DATE = "date";
+        ClockEvent.MON = "mon";
+        ClockEvent.YEAR = "year";
         return ClockEvent;
     }(AsEvent_1.AsEvent));
     exports.ClockEvent = ClockEvent;
+    var ClockValue = /** @class */ (function () {
+        function ClockValue() {
+            this._number = NaN;
+        }
+        ClockValue.prototype.getString = function (zeroPadding) {
+            if (zeroPadding === void 0) { zeroPadding = 0; }
+            var result = String(this._number);
+            while (result.length < zeroPadding) {
+                result = "0" + result;
+            }
+            return result;
+        };
+        return ClockValue;
+    }());
+    exports.ClockValue = ClockValue;
     var Clock = /** @class */ (function (_super) {
         __extends(Clock, _super);
         /**
@@ -28,13 +50,13 @@ define(["require", "exports", "../../res/event/AsEvent"], function (require, exp
          */
         function Clock() {
             var _this = _super.call(this) || this;
-            _this.millEvent = new ClockEvent(Clock.MILL);
-            _this.secEvent = new ClockEvent(Clock.SEC);
-            _this.minEvent = new ClockEvent(Clock.MIN);
-            _this.hourEvent = new ClockEvent(Clock.HOUR);
-            _this.dateEvent = new ClockEvent(Clock.DATE);
-            _this.monEvent = new ClockEvent(Clock.MON);
-            _this.yearEvent = new ClockEvent(Clock.YEAR);
+            _this.millEvent = new ClockEvent(ClockEvent.MILL);
+            _this.secEvent = new ClockEvent(ClockEvent.SEC);
+            _this.minEvent = new ClockEvent(ClockEvent.MIN);
+            _this.hourEvent = new ClockEvent(ClockEvent.HOUR);
+            _this.dateEvent = new ClockEvent(ClockEvent.DATE);
+            _this.monEvent = new ClockEvent(ClockEvent.MON);
+            _this.yearEvent = new ClockEvent(ClockEvent.YEAR);
             _this.run();
             return _this;
         }
@@ -92,31 +114,31 @@ define(["require", "exports", "../../res/event/AsEvent"], function (require, exp
             requestAnimationFrame(function () { return _this.run(); });
             var after = new Date();
             var v;
-            this.millEvent.value = after.getMilliseconds();
+            this.millEvent.value._number = after.getMilliseconds();
             this.dispatchEvent(this.millEvent);
             v = after.getSeconds();
-            if (this.secEvent.value != v) {
-                this.secEvent.value = v;
+            if (this.secEvent.value._number != v) {
+                this.secEvent.value._number = v;
                 this.dispatchEvent(this.secEvent);
                 v = after.getMinutes();
-                if (this.minEvent.value != v) {
-                    this.minEvent.value = v;
+                if (this.minEvent.value._number != v) {
+                    this.minEvent.value._number = v;
                     this.dispatchEvent(this.minEvent);
                     v = after.getHours();
-                    if (this.hourEvent.value != v) {
-                        this.hourEvent.value = v;
+                    if (this.hourEvent.value._number != v) {
+                        this.hourEvent.value._number = v;
                         this.dispatchEvent(this.hourEvent);
                         v = after.getDate();
-                        if (this.dateEvent.value != v) {
-                            this.dateEvent.value = v;
+                        if (this.dateEvent.value._number != v) {
+                            this.dateEvent.value._number = v;
                             this.dispatchEvent(this.dateEvent);
                             v = after.getMonth() + 1;
-                            if (this.monEvent.value != v) {
-                                this.monEvent.value = v;
+                            if (this.monEvent.value._number != v) {
+                                this.monEvent.value._number = v;
                                 this.dispatchEvent(this.monEvent);
                                 v = after.getFullYear();
-                                if (this.yearEvent.value != v) {
-                                    this.yearEvent.value = v;
+                                if (this.yearEvent.value._number != v) {
+                                    this.yearEvent.value._number = v;
                                     this.dispatchEvent(this.yearEvent);
                                 }
                             }
@@ -126,13 +148,13 @@ define(["require", "exports", "../../res/event/AsEvent"], function (require, exp
             }
         };
         Clock.prototype.allListenerSet = function (initialRun, milliseconds, seconds, minutes, hours, date, month, fullYear) {
-            this.listener(Clock.MILL, milliseconds);
-            this.listener(Clock.SEC, seconds);
-            this.listener(Clock.MIN, minutes);
-            this.listener(Clock.HOUR, hours);
-            this.listener(Clock.DATE, date);
-            this.listener(Clock.MON, month);
-            this.listener(Clock.YEAR, fullYear);
+            this.listener(ClockEvent.MILL, milliseconds);
+            this.listener(ClockEvent.SEC, seconds);
+            this.listener(ClockEvent.MIN, minutes);
+            this.listener(ClockEvent.HOUR, hours);
+            this.listener(ClockEvent.DATE, date);
+            this.listener(ClockEvent.MON, month);
+            this.listener(ClockEvent.YEAR, fullYear);
             if (initialRun) {
                 milliseconds(this.millEvent);
                 seconds(this.secEvent);
@@ -144,13 +166,6 @@ define(["require", "exports", "../../res/event/AsEvent"], function (require, exp
             }
             return this;
         };
-        Clock.MILL = "mill";
-        Clock.SEC = "sec";
-        Clock.MIN = "min";
-        Clock.HOUR = "hour";
-        Clock.DATE = "date";
-        Clock.MON = "mon";
-        Clock.YEAR = "year";
         return Clock;
     }(AsEvent_1.AsEventDispatcher));
     exports.Clock = Clock;

@@ -11,16 +11,14 @@ var __extends = (this && this.__extends) || (function () {
 define(["require", "exports", "../../../../res/module/PonModule"], function (require, exports, PonModule_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    var Digital = /** @class */ (function (_super) {
-        __extends(Digital, _super);
-        function Digital(clock) {
-            var _this = _super.call(this, "./res/modules/digital/index.html", "./res/modules/digital/index.css") || this;
-            _this.$obj.addClass("digital");
-            _this.clock = clock;
+    var Stage = /** @class */ (function (_super) {
+        __extends(Stage, _super);
+        function Stage() {
+            var _this = _super.call(this, "./res/modules/stage/index.html", "./res/modules/stage/index.css") || this;
+            _this.$obj.addClass("stage");
             return _this;
         }
-        Digital.prototype.createdView = function () {
-            var _this = this;
+        Stage.prototype.createdView = function () {
             this.$milliseconds = this.$obj.find("[data-digital='milliseconds']");
             this.$seconds = this.$obj.find("[data-digital='seconds']");
             this.$minutes = this.$obj.find("[data-digital='minutes']");
@@ -28,28 +26,13 @@ define(["require", "exports", "../../../../res/module/PonModule"], function (req
             this.$date = this.$obj.find("[data-digital='date']");
             this.$month = this.$obj.find("[data-digital='month']");
             this.$fullYear = this.$obj.find("[data-digital='fullYear']");
-            this.clock.allListenerSet(true, function (e) {
-                _this.$milliseconds.html(e.value.getString());
-            }, function (e) {
-                _this.$seconds.html(e.value.getString());
-            }, function (e) {
-                _this.$minutes.html(e.value.getString());
-            }, function (e) {
-                _this.$hours.html(e.value.getString());
-            }, function (e) {
-                _this.$date.html(e.value.getString());
-            }, function (e) {
-                _this.$month.html(e.value.getString());
-            }, function (e) {
-                _this.$fullYear.html(e.value.getString());
-            });
             return _super.prototype.createdView.call(this);
         };
-        Digital.prototype.createdStyle = function () {
+        Stage.prototype.createdStyle = function () {
             return _super.prototype.createdStyle.call(this);
         };
-        return Digital;
+        return Stage;
     }(PonModule_1.PonModule));
-    exports.Digital = Digital;
+    exports.Stage = Stage;
 });
-//# sourceMappingURL=Digital.js.map
+//# sourceMappingURL=Stage.js.map

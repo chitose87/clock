@@ -5,9 +5,9 @@ define(["require", "exports", "jquery", "../../res/clock/Clock", "./modules/digi
         function Zero() {
             console.log("Zero v0");
             this.clock = new Clock_1.Clock()
-                .listener(Clock_1.Clock.SEC, function (e) {
+                .listener(Clock_1.ClockEvent.SEC, function (e) {
             })
-                .onceListener(Clock_1.Clock.SEC, function (e) {
+                .onceListener(Clock_1.ClockEvent.SEC, function (e) {
             });
             this.digital = new Digital_1.Digital(this.clock);
             $("body").append(this.digital.$obj);
